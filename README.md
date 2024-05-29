@@ -1,6 +1,6 @@
-# [Catch The Squares Game]()
+# [Catch The Squares Game](https://akileshjayakumar.github.io/catch-the-squares-game/)
 
-Here is the link to the live site: []()
+Here is the link to the live site: [https://akileshjayakumar.github.io/catch-the-squares-game/](https://akileshjayakumar.github.io/catch-the-squares-game/)
 
 ## Key Features
 
