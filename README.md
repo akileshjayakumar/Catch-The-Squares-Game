@@ -22,11 +22,11 @@ Follow these steps to set up the game on your local machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/catch-the-falling-object
+   git clone https://github.com/akileshjayakumar/catch-the-sqaures-game
    ```
 2. **Navigate to the project directory:**
    ```bash
-   cd catch-the-falling-object
+   cd catch-the-sqaures-game
    ```
 3. **Launch the game:**
    Open `index.html` in your browser to start playing.
