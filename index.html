@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>Catch The Squares</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+      #gameCanvas {
+        display: block;
+        background-color: #f0f0f0;
+      }
+      #score {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 24px;
+        color: #333;
+      }
+      #gameOver {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 48px;
+        color: #000000;
+        cursor: pointer;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="score">Score: 0</div>
+    <div id="gameOver">Game Over<br />Click to Restart</div>
+
+    <script>
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+      const scoreElement = document.getElementById("score");
+      const gameOverElement = document.getElementById("gameOver");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let player = {
+        x: canvas.width / 2,
+        y: canvas.height - 50,
+        width: 50,
+        height: 50,
+      };
+
+      let objects = [];
+      let score = 0;
+      let gameInterval;
+      let objectInterval;
+
+      function drawPlayer() {
+        ctx.fillStyle = "#3498db";
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+      }
+
+      function drawObjects() {
+        ctx.fillStyle = "#e74c3c";
+        objects.forEach((obj) => {
+          ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+          obj.y += obj.dy;
+        });
+      }
+
+      function createObject() {
+        const object = {
+          x: Math.random() * canvas.width,
+          y: 0,
+          width: 30,
+          height: 30,
+          dy: 3,
+        };
+        objects.push(object);
+      }
+
+      function updateScore() {
+        scoreElement.innerText = `Score: ${score}`;
+      }
+
+      function checkCollision(obj) {
+        return (
+          obj.x < player.x + player.width &&
+          obj.x + obj.width > player.x &&
+          obj.y < player.y + player.height &&
+          obj.y + obj.height > player.y
+        );
+      }
+
+      function updateGame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPlayer();
+        drawObjects();
+        objects = objects.filter((obj) => {
+          if (obj.y > canvas.height) {
+            stopGame();
+            gameOverElement.style.display = "block";
+            return false;
+          }
+          if (checkCollision(obj)) {
+            score += 1;
+            updateScore();
+            return false;
+          }
+          return true;
+        });
+      }
+
+      function movePlayer(e) {
+        player.x = e.clientX - player.width / 2;
+        if (player.x < 0) player.x = 0;
+        if (player.x + player.width > canvas.width)
+          player.x = canvas.width - player.width;
+      }
+
+      function startGame() {
+        gameInterval = setInterval(updateGame, 1000 / 60);
+        objectInterval = setInterval(createObject, 1000);
+        canvas.addEventListener("mousemove", movePlayer);
+      }
+
+      function stopGame() {
+        clearInterval(gameInterval);
+        clearInterval(objectInterval);
+        canvas.removeEventListener("mousemove", movePlayer);
+        canvas.addEventListener("click", restartGame);
+      }
+
+      function restartGame() {
+        canvas.removeEventListener("click", restartGame);
+        gameOverElement.style.display = "none";
+        score = 0;
+        updateScore();
+        player.x = canvas.width / 2;
+        objects = [];
+        startGame();
+      }
+
+      window.onload = startGame;
+    </script>
+  </body>
+</html>
