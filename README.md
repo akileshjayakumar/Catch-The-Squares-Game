@@ -1,6 +1,6 @@
 # Catch The Squares Game
 
-Here is the link to the live site: [https://akileshjayakumar.github.io/catch-the-squares-game/](https://akileshjayakumar.github.io/catch-the-squares-game/)
+Here is the link to the live site: [https://akileshjayakumar.github.io/catch-the-squares-game/](https://akileshjayakumar.github.io/Catch-The-Squares-Game)
 
 ## Setup
 
